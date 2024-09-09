@@ -1,0 +1,601 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Create_SFDC_Case" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:si="clr-namespace:System.IO;assembly=System.IO.FileSystem" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="EmailBody" Type="InArgument(x:String)" />
+    <x:Property Name="EmailSender" Type="InArgument(x:String)" />
+    <x:Property Name="EmailSubject" Type="InArgument(x:String)" />
+    <x:Property Name="Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="CaseNumber" Type="OutArgument(x:String)" />
+    <x:Property Name="FolderPath" Type="InArgument(x:String)" />
+    <x:Property Name="EmailDate" Type="InArgument(s:DateTime)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>900.8,5280</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>Create_SFDC_Case_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Activities</x:String>
+      <x:String>UiPath.Platform.ObjectLibrary</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>UiPath.UIAutomationNext.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Activities.Models</x:String>
+      <x:String>UiPath.Shared.Activities.Business</x:String>
+      <x:String>UiPath.Platform.Triggers</x:String>
+      <x:String>UiPath.Platform.Triggers.Scope</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>UiPath.Database.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.Watcher</AssemblyReference>
+      <AssemblyReference>System.IO.Packaging</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.DriveInfo</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.AccessControl</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Create_SFDC_Case" sap:VirtualizedContainerService.HintSize="593.6,5215.2" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="SFDCUrl" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="552,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;SFDC Case Started&quot;]" />
+    <Sequence DisplayName="Open SFDC" sap:VirtualizedContainerService.HintSize="552,68.8" sap2010:WorkflowViewState.IdRef="Sequence_10">
+      <Sequence.Variables>
+        <Variable x:TypeArguments="x:String" Name="RUIUsername" />
+        <Variable x:TypeArguments="x:String" Name="OrchestratorFolder" />
+      </Sequence.Variables>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <ui:MultipleAssign DisplayName="Multiple Assign" sap:VirtualizedContainerService.HintSize="430.4,164" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+        <ui:MultipleAssign.AssignOperations>
+          <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+            <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_1">
+              <ui:AssignOperation.To>
+                <OutArgument x:TypeArguments="x:String">[SFDCUrl]</OutArgument>
+              </ui:AssignOperation.To>
+              <ui:AssignOperation.Value>
+                <InArgument x:TypeArguments="x:String">[Config("Website").ToString]</InArgument>
+              </ui:AssignOperation.Value>
+            </ui:AssignOperation>
+            <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_2">
+              <ui:AssignOperation.To>
+                <OutArgument x:TypeArguments="x:String">[RUIUsername]</OutArgument>
+              </ui:AssignOperation.To>
+              <ui:AssignOperation.Value>
+                <InArgument x:TypeArguments="x:String">[Config("BotName").ToString]</InArgument>
+              </ui:AssignOperation.Value>
+            </ui:AssignOperation>
+            <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_3">
+              <ui:AssignOperation.To>
+                <OutArgument x:TypeArguments="x:String">[OrchestratorFolder]</OutArgument>
+              </ui:AssignOperation.To>
+              <ui:AssignOperation.Value>
+                <InArgument x:TypeArguments="x:String">[Config("OrchestratorFolder").ToString]</InArgument>
+              </ui:AssignOperation.Value>
+            </ui:AssignOperation>
+          </scg:List>
+        </ui:MultipleAssign.AssignOperations>
+      </ui:MultipleAssign>
+      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="OpenSFDC.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="430.4,113.6" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Process\Library\OpenSFDC.xaml">
+        <ui:InvokeWorkflowFile.Arguments>
+          <InArgument x:TypeArguments="x:String" x:Key="SFDCUrl">[SFDCUrl]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="RUIUsername">[RUIUsername]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="OrchestratorFolder">[OrchestratorFolder]</InArgument>
+        </ui:InvokeWorkflowFile.Arguments>
+      </ui:InvokeWorkflowFile>
+    </Sequence>
+    <uix:NApplicationCard WebDriverMode="{x:Null}" AttachMode="ByInstance" CloseMode="Never" ContinueOnError="False" DisplayName="Use Browser Chrome: Cases: Home ~ Salesforce - Unlimited Edition" sap:VirtualizedContainerService.HintSize="552,4748" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" InteractionMode="DebuggerApi" OpenMode="Never" ScopeGuid="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Version="V2">
+      <uix:NApplicationCard.Body>
+        <ActivityAction x:TypeArguments="x:Object">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="518.4,4531.2" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="x:String" Name="Time" />
+              <Variable x:TypeArguments="x:String" Name="Datee" />
+              <Variable x:TypeArguments="x:String" Name="splitdate" />
+            </Sequence.Variables>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Sequence DisplayName="Create SFDC Case" sap:VirtualizedContainerService.HintSize="476.8,2148" sap2010:WorkflowViewState.IdRef="Sequence_11">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <uix:NClick ClickType="Single" DisplayName="Click 'New'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NClick_21" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Version="V1">
+                <uix:NClick.Target>
+                  <uix:TargetAnchorable BrowserURL="https://dell--sit1.sandbox.my.salesforce.com/500/o" DesignTimeRectangle="606, 370, 36, 18" ElementType="Button" FriendlyName="'New'" FullSelectorArgument="&lt;webctrl tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='1' tag='INPUT' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='button' tag='INPUT' class='btn' aaname='New' check:text='New' /&gt;" Guid="1a24143f-2985-458d-9a96-8828b6efa2c0" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAACgAAAAWCAYAAACyjt6wAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAJeSURBVEhL1ZZNbuJAEIXnTr5VbM6QFRtsmHsQk7BBYscKBSwYwQ1mBBhmgcSf+Yeaft2U09htZQMJg/RU1V2vqj4sJPxju93SI+v/Auz3+1Sv16lWq32bsB8cKUBcNhoN2u12dD6fiT96jk9W7VY+7O/1ejFkDAhyRG5A/Ez38uk8MSAeL4qn0+lK+gCuf4UPPClAFI7HY8psur+3zwgI0+FwiCPn0N+3HFmWRaWuOh9Gr5QT59zb5MqXVNa8pJI+IyAK+JHu93uZI7ImF0DLKtIv+IZ+DKj7eAEra95nPiMgTCyYcM8DxxXnAmiRUxlLQAeAr2PlG1UksPJ41I17POpgnqjDb/3savOUz7Q3ExC5KfJAr6QAOgMF6FRCUe+QJ3IvUEs68Ng+jS9fAvfbwBN9l/vdmHxb5KVO5j4joG6CNptNfA75aVzALNuJATdtVy2/kvBuwxhEQaPHIT9gcLXHtNcIGEWRLLLW67UU8sGLLZYWKBDntvcB4vgjWrcUoNveyBkQ+hBHvvhitkuuAHVbQyo/iViEv0BtzZfcmwmoD0fkfKgBRlGbChdA+2UgPAG5OHttkSsIqxioeb/LZEuvTeU/awqKqo/rPF/PEY2Aq9UqNifFT7AlPPCpswKUnveCWiz14YuigQJ+KtNA8xXeI1lnJfcZAZfL5VUTznyHJv2ecz7f2mcEnM/ntFgspEGPnPP5K3wpQPw5T6fTuIGbklHXvXzgSL0s4PWm2WzSZDKRptlsZowsHnhrXxiGkiP1ugVVq1XK5/P0/Pz8bcJ+cDDTFeAj6sEBt/QPPaNYZSZAX2gAAAAASUVORK5CYII=" InformativeScreenshot="1572010c5fc0ac8a62f1a1f4ed398976.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Cases: Home ~ Salesforce - Unlimited Edition' /&gt;" SearchSteps="FuzzySelector, Image" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                        <uix:Target DesignTimeRectangle="45, 377, 548, 18" ElementType="Text" FriendlyName="'Recent Cases'" FullSelectorArgument="&lt;webctrl tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='1' tag='H3' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='' tag='H3' class='' aaname='Recent Cases' check:innerText='Recent Cases' /&gt;" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAigAAAAWCAYAAADq4mdxAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAALUSURBVHhe7drNbcMwDIZhjxig+xQZJR0l3aOHbJGbGv+IpCnKloH+CPB7eA51JFnWhV9pD8/nMwEAAPSEgAIAALpDQAEAAN0hoAAAgO6YgHJP12FIQ9U13c3EHt3fh3T9jH9bC5717ZYe4VgAAPDXDgSUUa8h5ZFub/MedwPK59U9k3VJt69gDgAA+FNhQCmL/NZvPWgMKF+3dFme4/LxCK/TSQEA4P81BhQNANXCPnq/mzkL37EoxrjOjQsI42ubPO/xcdFx0s2JOj9xp8eu5X+b1vbhxD/fiz8bWTOrrW3GFOdb3IdODgDg3NoCiimg8lvtVYkp8r4wi1zEgwAw04BRBABruldrQDnwGmhU3ZuGh+reTEipjZGg13AfAADO5tg3KBI+omLvr+l6ZTGei28u3rYr469pgdeCrcEnX2sJHxsBLJDvoXvz84N7SmhbApI8rwlM/lqeE5ytPRcAAM6kOaCsinr1v/7ZVFij4ryyE4iWLoQEFPvqxAWd3wgolu+C5Pm161m1gzRZ9u7P0r9mAgDghDZf8dgCu/pvfiegTGHCdxMKOwFlKdQ/F1Baxhi1V1gvOr/yDMvetwNKfM7R7wAAnM3uNyi2SyDXi4AQkDH7AWWrEP9cQKmslU2BJO9V19OOxt5+zZxljASPI10RG4zopgAATqrhI1nTJZCCaYqxFHs/X/+ufcchgSFYN885GlA2v9uQeRsdoWkvwVmY4OCfT8/L7cOsW64zh6EwxLgx89oAAJxHQ0B5McVZCrv9T98yhbb6iiOPscFgRQvz0YAyq3d2tl+71NZby+dTX0vvL/t3NCDpuReiTg8AACfQFlBetNCa4u9Diu0CZHtjipCy7hq0BRR7zV0PBaGg2Pt6zHgmEkjMXsqQUnY9fEgpuzzlfsoxAACchwkoAAAAfSCgAACA7hBQAABAdwgoAACgOwQUAADQHQIKAADozDN9A2A3l41XqersAAAAAElFTkSuQmCC" SearchSteps="FuzzySelector, Image" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NClick.Target>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </uix:NClick>
+              <uix:NSelectItem DisplayName="Select Item '*Record Type'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NSelectItem_4" Item="[Config(&quot;CaseType&quot;).ToString]" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Version="V1">
+                <uix:NSelectItem.Items>
+                  <scg:List x:TypeArguments="x:String" Capacity="19">
+                    <x:String>ACQC Email</x:String>
+                    <x:String>Booking Case</x:String>
+                    <x:String>Channel Services Helpdesk</x:String>
+                    <x:String>Channel Services Helpdesk (internal only)</x:String>
+                    <x:String>Converged</x:String>
+                    <x:String>CQC Email</x:String>
+                    <x:String>Deal Registration</x:String>
+                    <x:String>Environmental Calculation (Power Calculator)</x:String>
+                    <x:String>Policy Variation Request</x:String>
+                    <x:String>PSS-AMGA Email</x:String>
+                    <x:String>PSSC Email</x:String>
+                    <x:String>PSS-CPSD Email</x:String>
+                    <x:String>Quoting</x:String>
+                    <x:String>Renewals Quote Request</x:String>
+                    <x:String>RPQ</x:String>
+                    <x:String>Storage Sizing</x:String>
+                    <x:String>Technical Drawings</x:String>
+                    <x:String>Technical Helpdesk</x:String>
+                    <x:String>TSSO Email</x:String>
+                  </scg:List>
+                </uix:NSelectItem.Items>
+                <uix:NSelectItem.Target>
+                  <uix:TargetAnchorable BrowserURL="https://dell--sit1.sandbox.my.salesforce.com/setup/ui/recordtypeselect.jsp?ent=Case&amp;retURL=%2F500%2Fo&amp;save_new_url=%2F500%2Fe%3FretURL%3D%252F500%252Fo" DesignTimeRectangle="390, 400, 293, 19" ElementType="DropDown" FriendlyName="'Quoting'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;form&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;table' tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='1' tag='SELECT' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='' tag='SELECT' class='' aaname='*Record Type of new record' /&gt;" Guid="4e6b569f-1d24-4ade-85d6-c8b352a7b246" InformativeScreenshot="d1ce9885d0c85581f0f3d1999ef14f90.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='New Case: Select Case Record Type ~ Salesforce - Unlimited Edition' /&gt;" SearchSteps="FuzzySelector" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                        <uix:Target DesignTimeRectangle="230, 400, 140, 12" ElementType="Text" FriendlyName="'*Record Type'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;form&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;table' tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='1' tag='LABEL' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='' tag='LABEL' class='' aaname='Record Type of new record' check:innerText='*&amp;#xD;&amp;#xA;Record Type of new record' /&gt;" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAJAAAAAQCAYAAAD59vZgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAKtSURBVGhD7VbBcQMhDEx9LiB13Ntl2D8X4XzShCczKcJuwj8CiIUViIudy5wTD4+d+ASspNVyuZfr9eoGBn6KYaCBRRgGGliEYaCBRSADfbr95tVtKuxP+sAa+Nj53NO7O3P8dGhqi6j3rYRYY6zh4D6M9afE+d1Nvmf2RGOg6XjJi+fj9iECmQbKaOtcH3+hhgfgXgPJrd+6t7M8l1un93F8s/uszmMNPBf3NvnnaRuLEaOkWNx3cPt7DJRy5KZyzcjj+cDNnEkM5LQvieSSPcjJtXpwvx5ifsrJ3EZOdUmxnjitCywxr13kF00llni5HpWvzNHuy8eTlpOfTfgbNaUZTrtD5LvZQGIMahQDICeioVgcxfEbfIULAyjCKA40d/MbKPEl4WSAbErNK+fkN4QoZ5CDeBFXRm21AqRPrcdsTtYMw+L6K4PCLOCRM9Cy7bGri9VX+l360hxNbo9vvoEgPoahERLZ4iMZ3Z4sVNWAR83R4xSwSBKLueJ+Xqvz0DMGpUC1BvBg+XwUs60B0LXTvm7Owitnw5vZ636q8wv0ZUv5at5QY1N/wlxfbCZrr8HZfQNJYRC1HkZBb9hrGki4vajHIEBl+sxDz7VQFuaEXmAgK6dcAPm3B332/t9FY2rsbQzU7rOGbcepr980EJ4hhio8JpLfuiHiSMnAVxqtB2tz8LpGXWdA4lTnEDNqQ45oBhIw89F58ClxrRoEXQPN5UxaoVbRitYJtYFUXWrAnA/nDP35fG0gk4PXb/qIRgwDEfC+3HAAN53OC9B01UAEc9/5EZ2A5koceTof0ao24wZHJAETCrddQ0DfQP65m3NmqHmPoDGQR1f/bMwAPtPpy8pLNX/zEf2/UW4YYpZRB34bT2Cgcpv0G2EYaA08zRto4DEYBhpYgKv7Aqu5HKD5x8nKAAAAAElFTkSuQmCC" SearchSteps="FuzzySelector, Image" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NSelectItem.Target>
+              </uix:NSelectItem>
+              <uix:NClick ClickType="Single" DisplayName="Click 'Continue'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NClick_22" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Version="V1">
+                <uix:NClick.Target>
+                  <uix:TargetAnchorable BrowserURL="https://dell--sit1.sandbox.my.salesforce.com/setup/ui/recordtypeselect.jsp?ent=Case&amp;retURL=%2F500%2Fo&amp;save_new_url=%2F500%2Fe%3FretURL%3D%252F500%252Fo" DesignTimeRectangle="608, 449, 55, 22" ElementType="Button" FriendlyName="'Continue'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;form&amp;gt;div&amp;gt;div&amp;gt;table' idx='2' tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='1' tag='INPUT' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='submit' tag='INPUT' class='btn' aaname='Continue' check:text='Continue' /&gt;" Guid="0339e4ec-f195-4106-8750-849635e9be63" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAADsAAAAaCAYAAAAJ1SQgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAMlSURBVFhH5Zi5UuNAEIb3nfxWtvYZiAiwBM+Bry0SqsgIWPABWwUPAPiUAwIOn5zN/D3TcktIJiBBi6v+6pmev3v6G0Xwa7lc0k/Rz4W9uLigg4MD2t/fz73AAR7NF8Hi4Pz8nNfye3t7cyv70/usNX7fwQeOw8PDGHAEi5dAxA9FnykPPs0FRbD49K+vrzElG0guTz5wpcK+vLzEjKJkPk++TNjn52c2Iso6TXnyZcI+Pj7S09MTmxBF0lyUJ99aWDEihzj+85sKhUIkrzFO9UHIyV48H33/KCjVKcR+1CDP9Aw6X+m33pcJiyiFiGHDM4Ae1Ye2eDmo83BeI4z5JIqSeR3PdsyjGdjxJz5E0Vd8a7+s7BeLUwocmOREka8TqK9uHmXgPJz3KNjBY9lzv72gMT+e+AM6c4+HLysP6W/7kcfeHVK9ZPbyQO5O9MMc9oO4njtn8fmMMmEXi0Wkea9KJdd0Npux5vM5R/b0azxcqTbk/Ok2LixTG76WHdirj4x3RDUMW6zSUHxmPYBP3SH9CtudRL8BVYu2ZoR727a335q7e3y+czZrk8/zDGIcmbAaSAYpN1XORWhYK/EwHZPjfFf5eYgSVbu2ph2sYGWtYblGwAFhfAPuD5AVLNe4h4Svww+SUNCOzboWdqU2lU0xXgr76XQaCXs7jP2S7I9gjadZNmcWFmcaUNZ99LquRLD6sXT/1rRPFYatcP2Me1sf93IzJOcTZcLqgslkQr0qLrRDc94NV6r21brH3pa7uAWfg61c2158Zobtie8DrFqfTLhfn++2/XRvm3e+kxW4rtccmbAPDw98kY7dSpEbioq716vz4y11VqTKlR3U5ou0e2l9Td+cG9hurF+Zmpe7VDTrrWPju6rwGsOu7jWAiXvKvgN0Pu7tzgp+k+7v72Pzr4WFWQqSUSsvvk9h7+7uUqMoT75MWF18e3vLkr3O58mXCStGKdJ7FEsuT75UWPyRe3NzE5mkgY66idZ39YEn9Y93/Pvi6OgvhWEYK0q7SHLf2QcO8KT+Wwba29ujzc1N2tjYyL3AAR7NF4P93/WDYJf0DpjFjyxEmS7jAAAAAElFTkSuQmCC" InformativeScreenshot="a0fa515bb2e1ad00fe828ebdcc734d7c.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='New Case: Select Case Record Type ~ Salesforce - Unlimited Edition' /&gt;" SearchSteps="FuzzySelector, Image" Visibility="Interactive" />
+                </uix:NClick.Target>
+              </uix:NClick>
+              <uix:NSelectItem DisplayName="Select Item '*Case Subtype'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NSelectItem_5" Item="DRR Estimate" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Version="V1">
+                <uix:NSelectItem.Items>
+                  <scg:List x:TypeArguments="x:String" Capacity="35">
+                    <x:String>--None--</x:String>
+                    <x:String>APEX Sizing</x:String>
+                    <x:String>Cloud Smart Discovery</x:String>
+                    <x:String>Cloud Smart Proposal</x:String>
+                    <x:String>Core Sources</x:String>
+                    <x:String>Data Collection</x:String>
+                    <x:String>Data Replication</x:String>
+                    <x:String>DPS Assessment</x:String>
+                    <x:String>DPS CDP</x:String>
+                    <x:String>DPS Competitive</x:String>
+                    <x:String>DPS GetModern</x:String>
+                    <x:String>DPS Sizing</x:String>
+                    <x:String>DPS TSP</x:String>
+                    <x:String>DRR Estimate</x:String>
+                    <x:String>DRR Pilot</x:String>
+                    <x:String>Encompass</x:String>
+                    <x:String>Get Efficient</x:String>
+                    <x:String>Get Efficient – Partner</x:String>
+                    <x:String>GetModern</x:String>
+                    <x:String>MEC SC Transition Guidance</x:String>
+                    <x:String>Net New</x:String>
+                    <x:String>Network Assessment</x:String>
+                    <x:String>Network Assessment – Unsolicited</x:String>
+                    <x:String>PowerFlex Sizing</x:String>
+                    <x:String>Proposal</x:String>
+                    <x:String>UDS ECS GetModern</x:String>
+                    <x:String>UDS ECS SOTA</x:String>
+                    <x:String>UDS Net New</x:String>
+                    <x:String>UDS Node Expansion</x:String>
+                    <x:String>UDS PowerScale CSS</x:String>
+                    <x:String>UDS PowerScale GetModern</x:String>
+                    <x:String>UDS PowerScale SOTC</x:String>
+                    <x:String>UDS Proposal - PowerScale</x:String>
+                    <x:String>UDS Triple P</x:String>
+                    <x:String>VxRail</x:String>
+                  </scg:List>
+                </uix:NSelectItem.Items>
+                <uix:NSelectItem.Target>
+                  <uix:TargetAnchorable BrowserURL="https://dell.my.salesforce.com/500/e?ent=Case&amp;nooverride=1&amp;RecordType=0121B000001lshWQAQ&amp;retURL=%2F500%2Fo" DesignTimeRectangle="390, 474, 230, 19" ElementType="DropDown" FriendlyName="'--None--'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;form&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;table' tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='4' tag='SELECT' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='' tag='SELECT' class='' aaname='*Case Subtype' /&gt;" Guid="4501ab1c-8063-4c1f-995e-2de97e42cbcc" InformativeScreenshot="b03d079af81ad60a0f6057058b18994b.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Case Edit: New Case ~ Salesforce - Unlimited Edition' /&gt;" SearchSteps="FuzzySelector" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                        <uix:Target DesignTimeRectangle="298, 474, 72, 12" ElementType="Text" FriendlyName="'*Case Subtype'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;form&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;table' tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='4' tag='LABEL' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='' tag='LABEL' class='' aaname='Case Subtype' check:innerText='*&amp;#xD;&amp;#xA;Case Subtype' /&gt;" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAEwAAAAQCAYAAAC825mnAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAG1SURBVFhH7Za9jcMwDIVvvgyQKa5Qc036LGB3GSJpvEQQIEM4S7jTWSIpPcqyLR8uLgIVD/GPRD5+pIV8DcNgq8pVgW1UBbZRFdhGJcCetj0c7SHoYh/q/Tv0sjcDOZtnZo1Wfz2Na0/21ufeu3jv8w3AGBYYfjQ7QLtfYvH++mjbe7Im0RIwercDsNVEfWeNTAEWxUWSdBEEnGSurxgLNFu8gsdTaDrbw562cb+QV3n5sefvuCfEcAMhsZu4Hpu05DsA84tC8FSUTDbHtVgIGBrX+KIkHsPOTw4cA/g5rgLL+Uka72MwTPQgYNEr71nzXQiMJEa9eC12I04oFxiek+amzAljY1HzwOJU4j1diw9qhouhnqvYeL/uu/CT5ClASAhXfa4uhi5wGm9OcI7+CzD22nS0XyZ4DdiC77JDn4EQaQzK13OjLUV5Q7FAVMjh7jGPyqkbRrFj57GBKTCBkQP0F98AzImNBcXEVBjJGDClpgtMCUzZA2OtleQM3YX949+EFjovRU0OfbcvAJJnEn8KMX/oL/tOgH2iCJgqXIAFSOX6aGDy6arpcqrA9lMFtkmD/QXaLdeWk6EGfgAAAABJRU5ErkJggg==" SearchSteps="FuzzySelector, Image" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NSelectItem.Target>
+              </uix:NSelectItem>
+              <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" DisplayName="Type Into 'Contact Email'" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="333.6,218.4" sap2010:WorkflowViewState.IdRef="NTypeInto_8" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Text="[EmailSender]" Version="V1">
+                <uix:NTypeInto.Target>
+                  <uix:TargetAnchorable BrowserURL="https://dell--sit1.sandbox.my.salesforce.com/500/e?ent=Case&amp;nooverride=1&amp;RecordType=0121B000001lshWQAQ&amp;retURL=%2F500%2Fo" DesignTimeRectangle="1303, 688, 177, 20" ElementType="InputBox" FriendlyName="'INPUT 00N1B00000BV7Rk'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;form&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;table' idx='2' tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='3' tag='INPUT' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='text' tag='INPUT' class='' aaname='Contact Email' /&gt;" Guid="0fc1d95b-6ead-4ef1-aa6e-d750649e93d7" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAALUAAAAYCAYAAAC80byZAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADESURBVHhe7dtLCsQgFERRl+AC3KXrzH4cCDYlvCb2b9yvuAeKEEJml4xiGWMsxpz2jHrOuYCs1O8RdQTde1+ttVVrZSzF1Ku6lQh7Ry168OklxjIswj6iji/0dV37vpSyr8A/U6/qVv3KEXUUH4gaWdzbJWpYIGrYIWrYIWrYIWrYIWrYIWrYIWrYIWrYIWrYIWrYIWrYIWrY+Rr166+nQAY/fz3lkADLvLdDAhznYlmnXiPo4zjXPWwgowj6iJoxj431AIRI8dqI8ykNAAAAAElFTkSuQmCC" InformativeScreenshot="c52a3b5a388d0307a88a566110f917af.png" IsResponsive="True" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Case Edit: New Case ~ Salesforce - Unlimited Edition' /&gt;" SearchSteps="FuzzySelector, Image" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                        <uix:Target DesignTimeRectangle="1211, 688, 73, 12" ElementType="Text" FriendlyName="'Contact Email'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;form&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;table' idx='2' tableRow='1' tag='TABLE' /&gt;&lt;webctrl aaname='Contact Email' tableRow='3' tag='LABEL' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl aaname='Contact Email' type='' tag='LABEL' class='' check:innerText='Contact Email' /&gt;" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAE0AAAAQCAYAAABTGfKZAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAGFSURBVFhH7ZXBkYMwDEW3vhSwdfhMGeRGEcmFJjKZSRGkCW5aG0lIAmNjb3b24sOfECTk/59N8jXPMzSVqUGrUINWoQatQhbaY4DL5VvUv0xzjaZbB9dHvJbXG+5ugGek9uyVz1Xx3jKFNf2sJbu+lh6BRsAk4AuuwchvwE0jODOzTAH4EYgFmhthitQ+pyS0eNGKenhXuZfB9HJK3e3tawRd36NevrfbIH3fnPoO7hP3oo6hcZZBZvaj8q42IbqGZpGEhqYxrBS18HWgBSm8AUGDY30IBw3wGhKajBEAfbqyJ20Jq6SDmhnkQfumzNrbHpS+lrVPQtvX19AGzCbopib1EIqeT6ydhZY8aRgUZ/ApOsjBfsqgxYuiT0DDGRxUQv8TNPKWBpWE5pX5I8AdsTD04llo+hk2s4TW175v8YEh/xSayauzlkALMj+M22YasK2loLEZr2AUwdN3F+8LWjdu9cOhRXqWKPSdhGbydN6P/9SbeBpa0yk1aBVq0CrUoBVrhh/ACyKvdXqTEgAAAABJRU5ErkJggg==" SearchSteps="FuzzySelector, Image" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NTypeInto.Target>
+              </uix:NTypeInto>
+              <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" DisplayName="Type Into '*Subject'" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="333.6,218.4" sap2010:WorkflowViewState.IdRef="NTypeInto_9" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Text="[EmailSubject]" Version="V1">
+                <uix:NTypeInto.Target>
+                  <uix:TargetAnchorable BrowserURL="https://dell--sit1.sandbox.my.salesforce.com/500/e?ent=Case&amp;nooverride=1&amp;RecordType=0121B000001lshWQAQ&amp;retURL=%2F500%2Fo" DesignTimeRectangle="390, 862, 562, 20" ElementType="InputBox" FriendlyName="'INPUT cas14'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;form&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;table' idx='3' tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='1' tag='INPUT' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='text' tag='INPUT' class='' aaname='*Subject' /&gt;" Guid="5dc280f3-dc12-4f2f-abcb-f8cf3edfba42" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAjYAAAAYCAYAAADpj7daAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAACrSURBVHhe7dbBCQQhAARBozbKC8jf3msXDcGmChomhBlrrUeSJKmQYyNJkjIdx2bOKUmSdFX7lxm/Mb5TAwBwm/3cODYAwNUcGwAgw7EBADIcGwAgw7EBADIcGwAgw7EBADIcGwAgw7EBADIcGwAgw7EBADIcGwAgw7EBADIcGwAgw7EBADIcGwAgw7EBADKOY/OO99xIkiTd1P5ljmMjSZJ0c46NJEmKtJ4/af5RJpewMIUAAAAASUVORK5CYII=" InformativeScreenshot="81c48ec760756fce14d9486129c2383a.png" IsResponsive="True" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Case Edit: New Case ~ Salesforce - Unlimited Edition' /&gt;" SearchSteps="FuzzySelector, Image" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                        <uix:Target DesignTimeRectangle="330, 862, 39, 12" ElementType="Text" FriendlyName="'*Subject'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;form&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;table' idx='3' tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='1' tag='LABEL' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='' tag='LABEL' class='' aaname='Subject' check:innerText='*&amp;#xD;&amp;#xA;Subject' /&gt;" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAACsAAAAQCAYAAACP4IauAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAEbSURBVEhL7ZPBDYMwDEU7HwN0jpwZg94YAi4sgZAYApbIzcWxrdqBQtTAAamHLxLi2A/78/Dew130h71KN4edOnDFEwrWq4/OVxrhhbHVuD7r68Qc37Tkdh1MvF/BDtVSmAPCuqhhiGKsdmAzpVlwH8HO0DobIJqacgEvoZ1wrwFlXdNTg0edpRxRDMpMk2qYWG7Y2gZcAKXHdwgrE+DC4a6GDWuZEt1xzRzl2pjsng1I3GEFcdxZ6ZTaK1iyVCSM0R9nGJJhWarYObAb/v8d1hY2gHqk4jENm2QDe58At2pSruPOclIR+QrPBAoT88+kYRN+MGMFiUHJxwfJ9AQc3xH8vg1yFWA/xXN1HaxMSI0xV9d29mTdCNbDGw6uf5APie0SAAAAAElFTkSuQmCC" SearchSteps="FuzzySelector, Image" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NTypeInto.Target>
+              </uix:NTypeInto>
+              <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="None" DisplayName="Type Into '*HTML Case Description'" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="333.6,218.4" sap2010:WorkflowViewState.IdRef="NTypeInto_10" InteractionMode="Simulate" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Text="[EmailDate.ToShortDateString().ToString + vbCrLf + EmailDate.TimeOfDay.ToString+ vbCrLf +EmailBody]" Version="V1">
+                <uix:NTypeInto.Target>
+                  <uix:TargetAnchorable BrowserURL="https://dell--sit1.sandbox.my.salesforce.com/500/e?ent=Case&amp;nooverride=1&amp;RecordType=0121B000001lshWQAQ&amp;retURL=%2F500%2Fo" DesignTimeRectangle="391, 380, 1484, 61" FriendlyName="'BODY 00N1B00000BV7SnUAL…'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;form&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;table' idx='3' tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='2' tag='IFRAME' /&gt;&lt;webctrl tag='BODY' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl tag='IFRAME' /&gt;&lt;webctrl tag='BODY' type='' class='cke_editable cke_editable_themed cke_contents_ltr cke_show_borders' aaname='' /&gt;" Guid="b55e7775-b3d7-40ad-ae00-4e42ec6f426d" ImageBase64="iVBORw0KGgoAAAANSUhEUgAABdAAAABBCAYAAADRyYbQAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAI4SURBVHhe7dgBCYAwAABB+wdaDbHGSkyGIAjfwDv4En/MOdcYY53XKUmSJEmSJEnS79vPfL/zd6BLkiRJkiRJkqSnz0AHAAAAAACWgQ4AAAAAAMVABwAAAACAYKADAAAAAEAw0AEAAAAAIBjoAAAAAAAQDHQAAAAAAAgGOgAAAAAABAMdAAAAAACCgQ4AAAAAAMFABwAAAACAYKADAAAAAEAw0AEAAAAAIBjoAAAAAAAQDHQAAAAAAAgGOgAAAAAABAMdAAAAAACCgQ4AAAAAAMFABwAAAACAYKADAAAAAEAw0AEAAAAAIBjoAAAAAAAQDHQAAAAAAAgGOgAAAAAABAMdAAAAAACCgQ4AAAAAAMFABwAAAACAYKADAAAAAEAw0AEAAAAAIBjoAAAAAAAQDHQAAAAAAAgGOgAAAAAABAMdAAAAAACCgQ4AAAAAAMFABwAAAACAYKADAAAAAEAw0AEAAAAAIBjoAAAAAAAQDHQAAAAAAAgGOgAAAAAABAMdAAAAAACCgQ4AAAAAAMFABwAAAACAYKADAAAAAEAw0AEAAAAAIBjoAAAAAAAQDHQAAAAAAAgGOgAAAAAABAMdAAAAAACCgQ4AAAAAAMFABwAAAACAYKADAAAAAEAw0AEAAAAAIBjoAAAAAAAQDHQAAAAAAAgGOgAAAAAABAMdAAAAAACCgQ4AAAAAAMFABwAAAACAYKADAAAAAEAw0AEAAAAAIBjoAAAAAAAQDHQAAAAAAAjPQJ/rBtBP9Il6HyUDAAAAAElFTkSuQmCC" InformativeScreenshot="be9ebb89a956de8f4da714c9f75d8586.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Case Edit: New Case ~ Salesforce - Unlimited Edition' /&gt;" SearchSteps="FuzzySelector, Image" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                        <uix:Target DesignTimeRectangle="247, 337, 122, 12" ElementType="Text" FriendlyName="'*HTML Case Description'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;form&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;table' idx='3' tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='2' tag='LABEL' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='' tag='LABEL' class='' aaname='HTML Case Description' check:innerText='*&amp;#xD;&amp;#xA;HTML Case Description' /&gt;" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAH4AAAAQCAYAAADQ3cuiAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAJCSURBVGhD7VbbjcIwELz6UgB15JsyyB9FwA9NREgUAU3kz2dnd+1ZP3JGBO508ceIxFmPd2Y2EV/TNJmG7aEFv1G04DeKFvxGoYK/n/am647mKmv3i+m7nelPD362S3G4mWk8+vthFL6HOfdQY9euB3vdX8xd+Iu4mUH4Z0BP7wDrDOdZVPX5Ktgj9mcJzn/xtt7HMqqD93W8FgK2gOB9LZr5VPAcOpgx73tn+Imm+kA+gpznL2LV4Pve7udgZy57P4f/RPBJDzFwoLAPGL6u25vzPeyhwSEoLYKMJuoj8OQ59JcJubHeDxD6ZH+HEQdMBv4YOHGd4c7QPsKX1e+BdeQD7zPBcxGgNvjBHkJm0aH96cJi6oNfrhFe6ifUski85jNpAJkv13tpXTTZtRIHDgdd08DiuuKW4L2f2KsEzEOP+6L+0KP5OtpD/Mwtz0CP41j1jR9Gaj7+XS94AvXpRIVaMkAgGkS8htLjsKhpgYNrBLlgPJ/ilLVM8OyVui8GTzWoJzxDbvss4lg5eAzA8TwffNKDAvNh2MjHvYXzWfwPZ5Y1ha9XmUMPhvcgV/+fg/dvY0ZMTfCpAbzP9aX6wUC0SNRB1/zZ9WHieRaJphxfyqH8Ag5Vj+HUBJ/hi/tDH703sEf5Iz5GHKsHr/dkgnf3CGlMQUwQhJ6Qg/4kadHyLPTHBsge1CKI9s5QA1ri0OuoRWmV9Zrgkz93ri744c7G4Ms9ILe9j3JTwTf8JvRL8m604P8MWvANH0ALfpOYzDedfumv3S3SlgAAAABJRU5ErkJggg==" SearchSteps="FuzzySelector, Image" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NTypeInto.Target>
+              </uix:NTypeInto>
+              <uix:NClick ClickType="Single" DisplayName="Click 'Save'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NClick_23" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Version="V1">
+                <uix:NClick.Target>
+                  <uix:TargetAnchorable BrowserURL="https://dell--sit1.sandbox.my.salesforce.com/500/e?ent=Case&amp;nooverride=1&amp;RecordType=0121B000001lshWQAQ&amp;retURL=%2F500%2Fo" DesignTimeRectangle="615, 373, 49, 27" ElementType="Button" FriendlyName="'Save'" FullSelectorArgument="&lt;webctrl tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='1' tag='INPUT' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='submit' tag='INPUT' class='btn' aaname='Save' check:text='Save' /&gt;" Guid="c0c551bd-d364-4120-9ba6-ad3978d6594d" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAADUAAAAfCAYAAABH0YUgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAACnSURBVFhH7ddBCoMwFATQuf+BPIc2rYRqFGuxBsSiG91Nu1FKb/CHDDz+/2Q1y2Dfd6rRLLWuK9UgyzKqwbZtVINlWagG8zzz9P7ZDd+YpolqMMaRMUYqTQyvgWrQP3uqQffoqAahDWzahv/zYPEdVah4qEN97pZv+LunGpS+pBq4q6O7fQlN5JechSuoNDW/HhRMKmUlqZSVpFJWkkpZSSplJYKlyA8jIjDdc1u0ewAAAABJRU5ErkJggg==" InformativeScreenshot="c8911dc5eed53bd12a9f665663d92e7d.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Case Edit: New Case ~ Salesforce - Unlimited Edition' /&gt;" SearchSteps="Selector, FuzzySelector, Image" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                        <uix:Target DesignTimeRectangle="62, 376, 520, 21" ElementType="Text" FriendlyName="'Case Edit'" FullSelectorArgument="&lt;webctrl tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='1' tag='H2' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='' tag='H2' class='mainTitle' aaname='Case Edit' check:innerText='Case Edit' /&gt;" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAgAAAAAeCAYAAABaO6Y4AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAU6SURBVHhe7d2/a9toHMdx/RdaA7cEMjRTNNZwQw0dzpDhQobgKYQOxWQo4YbgKZgOIdwQTIaiDAXdUHCHgrscKJMzFNyhoAwZPAQ0dNDQwdv3JEc/nseWHP9IS3x6D69Feh7Z8fL96PkVYzgcCgAAKBcCAAAAJUQAAACghAgAAACUEAEAAIASIgAAAFBCBAAAAEqoOADc9cQ5OZDa83UxDUOMkLlRkdp+S+yrQX6fFTK4rI3+ptnUxL7Nf8449bm1S+V3urWllj6vKa7S554v/YuWODN+DgAAy8gNAN4/B2KlxSrf2l5b+t8n+66KJxUAbhxpPDfn+hwAAJYxEQC8y530jf8h5n5H/LH+q+LpBICB2Nvzfw4AAMvQA4BWpAyxXrXFvQnS+8GNK+1XVnrfMDalda30XyGFhXpJ8z+XAAAA+PW0ANA72UyL1+ZfrgTKvYwn9p4l9cO2dL76E238L4609mti/ZYUNUPWtipSP3ak7+ttk/bNvcpY+5ocnOS3Hxl0pRX2WTeV9qddGfzIaVtg6QDg98U+rMbfwZT1lw2xv/jizTMCcNVM245rXsX9AAD4CZQA0JPWs6QALfYmGoQFberaga2w8CnrBuZtH/E/HRX2MZ9Pti+yVAC4caSuBJaMJdWXWYgiAAAAnqosAAwc2UkK0LOW9JRGs+nL2VbcPyzc3bv4euBJOx3iNuTggx+3VwLH9pn0kvY/fOn9nRXnzZNe3D50G37H+K3f2DqSzuD++uBjFgrMN92CkQudGgAeogcEX5y97J71pnM/8hB973N9/cSDAWCEKQAAwK+XBQC1QG3bMlAaLct7l/O2rX7ei5a4SQCYovc2ebs25ehztjZhOAykexg/y6iLM8OzFg4A39pSTe5NBKUw7Lwo6EcAAAA8IT8tAASDvrgfbTk73Enn6vWi6EpTuT6aR/+zKfbnvvi5c/nTC6Va0Buf1HCQb9EAEHxqZPeOXe2ZEe+8ktuPAAAAeEryA4DZXGAKIPS9L86xXvDHqUVx8L5gy6G5LjvHtrjxEP+9MDDktc2hFd4Ci64B0Pq986bfJwAAAJ4obRFg9kZelfY3veHDPLF3o8Ns7p9hbuxI49SW7lc/fwogdr8LwJK1+L7OkoMPSZGdIwDkFOZxjxEAKucEAADAalICQCDdN1kBL94GGLWzpLp/Js61J0EyXH/VzN7mt23xlD7TAkDqRyDedUfs04bUt9bS9oZ5JN0gahMGjD/ia49QKBcNAMN/j9J+Rvgbjd9nCgAAsAqUABBSF7gZplRe29K7GzsI6HVFGbbPFuOpBVWfG1cX6M1abPty9nvSJyuKxYsAPWnntJ9m4QCgFnIWAQIAVpQeAEJzHQW862SLBdURgGeNeIueL/1L/f8KpMPz1y3ZTK6PdgFkBd2/PssvsmpAibYB3sbh40MjfZZ5+PjbACPZvnxfOvvZSIm6DdB9W9V+u1kDgLObXDfjBYyBBKNRDwAAfo6JABAVn/5FvWBOPrMW7d3XDt3R1wCozI317HlpgQ7CN3q9YE6ywsKrvumHAeX9lO+Wc3BQkcUDQOi7K83kzAONJTu7804BhH/TRTXtk9sXAIBHlhMAYgNX7OjfASvz8Q/+O+DRLoB6eqxvdkSvMkRvNqSrFOnk6ODKhrqAsDI6arir7QLQ+0THBye7DUbtTzrizVj8I0sFgIh2FPCaWNsLHAWc8sU9yX630e983lfuAwDwuIoDAAAA+N8iAAAAUEIEAAAASogAAABACREAAAAoIQIAAAAlRAAAAKB0hvIfmJ9CXbk9i1QAAAAASUVORK5CYII=" SearchSteps="Selector, FuzzySelector, Image" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                    <uix:TargetAnchorable.PointOffset>
+                      <uix:PointOffset Y="2" />
+                    </uix:TargetAnchorable.PointOffset>
+                  </uix:TargetAnchorable>
+                </uix:NClick.Target>
+              </uix:NClick>
+              <uix:NGetText DisplayName="Get Text 'Case Number'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NGetText_3" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Version="V1">
+                <uix:NGetText.Target>
+                  <uix:TargetAnchorable BrowserURL="https://dell--sit1.sandbox.my.salesforce.com/50078000006PTpDAAW" DesignTimeRectangle="430, 323, 67, 17" ElementType="Text" FriendlyName="'05309179'" FullSelectorArgument="&lt;webctrl tableRow='1' tag='TABLE' /&gt;&lt;webctrl aaname='05309179' tableRow='1' tag='SPAN' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='' tag='SPAN' class='' /&gt;" Guid="3099c883-fa7c-4dd0-99b2-0a33a372a8d0" InformativeScreenshot="9b49309aa69917b6a2c9d1e917bc4297.png" ScopeSelectorArgument="&lt;html app='chrome.exe' htmlwindowname='EntityFeedFrameProxy_100' title='Case: 05309179 ~ Salesforce - Unlimited Edition' /&gt;" SearchSteps="FuzzySelector" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                        <uix:Target DesignTimeRectangle="324, 326, 102, 15" ElementType="Text" FriendlyName="'Case Number'" FullSelectorArgument="&lt;webctrl tableRow='1' tag='TABLE' /&gt;&lt;webctrl aaname='Case Number' tableRow='1' tag='SPAN' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl aaname='Case Number' type='' tag='SPAN' class='efhpCenterLabel' check:innerText='Case Number' /&gt;" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAGoAAAATCAYAAAB4DJieAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAJuSURBVGhD7ZZLbiJBDIbrfDnAHKTXuQbscgmy4RQoEtJkxeQ1CyIhQEICCRA1/fhdZbu6mp5mwtBR/ZJFV9fL9me3MDapF0qgeiJzPB7xmHTLMrvdDo9JtyyzWq3wmHTLMh8fv+3hcMDwvOaje3t394PZg33C3DXl/MjGdo53pSYP1fvBFC/+rejebPSJN9eReXl9tdvtFsNmPQ04IG739lFk6+vFC0Yk7buCent/t+v1GsMGUQJEB33axwywXGKmdliu8zacYCpX0JEqobIY4t0qz2GFokDRed4H+IdOdPOjsc3Ks8K9/HwPasziVIU6Z2eVaz1Ud9+gLp9xmV95Ry0WCwzjCgOGCqfc54eBEwZnHGxpFIhPDDP9aYOiwDuC0pZl6nysD+51hhgVJDK6P7hPFWpM5ufzcwtQBKAdfS/ah4pDEus/GzKBhSgpQXHk8pU9dcVRrusKCus9CJ34auzmnZ++OIs7Qp+b72srM5vN7GazwTAmlfAWkpVD++A0MxdQpBILqwPrQeVzrlPzZHYE5ebVfu+zBOXPk77IuLlV+0N/2sksl0u73+8xjCt6QZlgVF8ANAJYQymS0gCqrvoEqFzkn/tkxUDRPReC4sXTDlSVg2gez8gUkE6nE4YN4lWLV7zty8BVEnyQsU7kSZCVfk5hwugsmAJF62jfpaC8n+c+fVKdQeG3hRiUwAAi2hXVvAtSm0qqtHrIIahcrphyw5nROy8FFRgKOJYDFeMXgqoUOso7TM0XziHwoKLJVAdpWLGA6BwBiheTS7QssOFEdm5XUH/z95zHeDVQSf9HCVRPlED1RAlUL2TtH+n0PU4TCJxxAAAAAElFTkSuQmCC" SearchSteps="FuzzySelector, Image" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NGetText.Target>
+                <uix:NGetText.Text>
+                  <OutArgument x:TypeArguments="x:String">[CaseNumber]</OutArgument>
+                </uix:NGetText.Text>
+              </uix:NGetText>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Trace" Message="[&quot;SFDC case creation finished successfully.&quot;]" />
+            </Sequence>
+            <Delay Duration="00:00:05" sap:VirtualizedContainerService.HintSize="476.8,22.4" sap2010:WorkflowViewState.IdRef="Delay_1" />
+            <Sequence DisplayName="Change Case Owner" sap:VirtualizedContainerService.HintSize="476.8,1298.4" sap2010:WorkflowViewState.IdRef="Sequence_12">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <uix:NClick ClickType="Single" DisplayName="Click 'Details'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NClick_24" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Version="V1">
+                <uix:NClick.Target>
+                  <uix:TargetAnchorable BrowserURL="https://dell--sit1.sandbox.my.salesforce.com/50078000006PTpD" DesignTimeRectangle="394, 490, 101, 41" ElementType="Text" FriendlyName="'Details'" FullSelectorArgument="&lt;webctrl id='bodyTable' tag='TABLE' /&gt;&lt;webctrl id='efpViews_50078000006PTpD_option1' tableRow='1' tag='A' /&gt;" FuzzySelectorArgument="&lt;webctrl id='bodyTable' tag='TABLE' /&gt;&lt;webctrl id='efpViews_50078000006PTpD_option1' type='' tag='A' class='optionItem efpDetailsView' aaname='                                                                                             Details                              ' check:innerText='Details' /&gt;" Guid="7cb84673-d52c-4a8d-9dae-75abb4e31f32" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAGkAAAAtCAYAAACtS0VAAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAHSSURBVHhe7ZY7rsIwEEVZHw0d66CgYhlQsQko2ARI7IDikYYlpJ0X24lj7MlPguArXUtHws6MizmeEQvhyn5REsBavF4vIXljO8n8KMuSZAglAUBJAFASAJQEACUBQEkAUBIAlAQAJQFASQBQEgCUBAAlAZCRpLvsV2tZKuyvWvwQhdyuhXKu8zzvZLm9yNPsi4tsVjs5FWncL8hOUiLEFmwtm/P4ghtBp+3UnABK6qJDkuF6rDpqStEo6Uv0SFKL7s7asXiUm3bejLAk3tDkDI27eBS3eXMAIqmU26EqzuFe711sKM0WORIVfn/Pb+9ozroljbnru2BKMuPPd0hDWMy0sBrhnd2S0gcxN5CSXNdUe4UhSUnuoKQ4Z95RZwCR5IrefLPCkk4K6RhRUZHHdVJIPSJnloUhyf67a4viXnZfkWJJ2t0uZpqkhv6u/zT5S7IFi0dX/aLrAodxb93mv7t4tbMGJaW58aP5NtlJamd/i/5i0/i3OFtIc14Xs5bo4ys5YUf2dlKc29tlnycjSaQLSgKAkgCgJAAoCQBKAoCSAKAkACgJAEoCgJIAoCQAKAkAL8ksLYD8Hi/p8fdUA8jvMW58J5kNyQ+zvCSuXJfIPzhDW7VH9WIkAAAAAElFTkSuQmCC" InformativeScreenshot="fa3c9229f0b1347d040a62ec8f41d0e8.png" ScopeSelectorArgument="&lt;html app='chrome.exe' htmlwindowname='EntityFeedFrameProxy_100' title='Case: 05309179 ~ Salesforce - Unlimited Edition' /&gt;" SearchSteps="FuzzySelector, Image" Visibility="Interactive" />
+                </uix:NClick.Target>
+              </uix:NClick>
+              <uix:NClick ClickType="Single" DisplayName="Click '[Change]'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NClick_25" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Version="V1">
+                <uix:NClick.Target>
+                  <uix:TargetAnchorable BrowserURL="https://dell--sit1.sandbox.my.salesforce.com/50078000006PTpDAAW" DesignTimeRectangle="647, 782, 61, 17" ElementType="Text" FriendlyName="'[Change]'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;table' idx='2' parentid='ep' tableRow='1' tag='TABLE' /&gt;&lt;webctrl aaname='[Change]' tableRow='1' tag='A' /&gt;" FuzzySelectorArgument="&lt;webctrl parentid='ep' tag='TABLE' /&gt;&lt;webctrl aaname='[Change]' type='' tag='A' class='' check:innerText='[Change]' /&gt;" Guid="058c6827-3763-4105-a906-8f4c8049e7df" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAEEAAAAVCAYAAAAZ6IOkAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAGjSURBVFhH7ZVZjoMwDIY5I1IvVHEVehR6kD5wjIxjO8RLgARVamcmvxRBNi8fThhCV+gQQB0CqEMAdQigDgGkICz3IQxDbGOYXzwY9ZrDiOO5TU+eY+He+8K979T6GIvxewgmEQJThjI+Vh74HRBIS5iaIDwnDyDJzP1ZCC2J0do5zDd4csnZvbgmzWGTgFNw9ExrZLVFKRs38GdjtEfXxd8EYcWEbBB7SsFl4+Qs7cfzCEFna2Q/j6XkJ3hjmWqjM53ntzOeYnaVyz4UiAsQ5OIj4V6VpLXnpcFoaCQZsA/eJhn9uY+GlVGqOO6C3lsJJuEiBPxaMJ6agaCTFGMuGVL2wUCk7a1dhuD7WrpSziDk35Mp77dBoLXnH60Rwp5jVMXfIY+VqwrnayEU5+VxkO9HaoUAwjELgm9gmVQNBDm/VUY1hLTn7GLUNuyekp9TCCh7jo2RqGMI2EPnm42YvKqmcwhRaFPYcL9IF6sEEHUVwhcrxlx7eZMaIGian20kCl4lbO6l0l7ZSDUQcMPOZfhp8V2UE2uLc7tDoO1C+J8K4Qdsc39Ihx6y7QAAAABJRU5ErkJggg==" InformativeScreenshot="28e131655a6a84347db38478880f74bc.png" ScopeSelectorArgument="&lt;html app='chrome.exe' htmlwindowname='EntityFeedFrameProxy_100' title='Case: 05309179 ~ Salesforce - Unlimited Edition' /&gt;" SearchSteps="FuzzySelector, Image" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                        <uix:Target DesignTimeRectangle="303, 778, 284, 25" ElementType="Text" FriendlyName="'Case Owner'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;table' idx='2' parentid='ep' tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='1' tag='TD' /&gt;" FuzzySelectorArgument="&lt;webctrl parentid='ep' tag='TABLE' /&gt;&lt;webctrl type='' tag='TD' class='labelCol' aaname='Case Owner' check:innerText='Case Owner' /&gt;" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAASAAAAAdCAYAAAAKELFHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAJnSURBVHhe7ZhdbsIwEAZ7Pg7Qg+S51yBvXAJeOAWq1B6CStzBTfCu7bWdBvq3ajUjrYQcJ1mQvtGahwAA4AQCAgA3EBAAuIGAAMANBAQAbiAgAHADAQGAGwgIANxAQADgBgICqDkfw7B5DJuixpNcc+J5a/vZbJ7C4SwX/zAICKDktKuCnmvYv8mm3+QtHIZ+P3P59PR9ICCAxEsYJdjlxHPeP0ngd+G5WZMajiEPJPk5sapppZqwPpJI790zdl3fl/foxJSfLXumPl/l3mF/LPq8vUd99rhVWdve7gEBASg6/WxfZEGZp5AioAtTUgzp0sQiIe0c7+bqH/H0Wf3jVimZ+Fn3FT2oGKXneW8jTy3du9Jjcxxsfq/bQUAAggbz7v97jLg0/P2poH1Hnkxax7STjaGQivlsBBLvLQWVBNQIJ+5d6zEJ6AviURAQgKDBi5PMDdSTggQyBVyrkEszPaTqSeYOAWkvcw+yrkek8WSl2H5Pe32tR71+t6g7ICAAxUwyJTGgKXD1voX7bJDj9LEc7t4xS8WwfgQrJTJe1ydZiJSGSURJThOfF5D9DggI4FvRicOGK080/QCm6424ImXg9fOt4c3vjnJQ6p7s2lTXqUvFEqvud0lAaz0iIIAfwoS4Kg3s4oRwFVCWmC0RRX1s01qQV5ZDv7JEJopnt71mga0JaK1HBATwk3QCaMNWSmYWSxXgjoTM/fXzu39AW1rp5ckn05ng9HhYvGNVQDMf9IiAAOBfgIAAwA0EBABuICAAcAMBAYAbCAgA3EBAAOAGAgIAN5KALpcLRVHUrxYTEAA4EcI7oKsXvpf/2gwAAAAASUVORK5CYII=" SearchSteps="FuzzySelector, Image" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NClick.Target>
+              </uix:NClick>
+              <uix:NSelectItem DisplayName="Select Item '*Owner'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NSelectItem_6" Item="[Config(&quot;CaseOwnerType&quot;).ToString]" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Version="V1">
+                <uix:NSelectItem.Items>
+                  <scg:List x:TypeArguments="x:String" Capacity="4">
+                    <x:String>User</x:String>
+                    <x:String>Queue</x:String>
+                    <x:String>Partner User</x:String>
+                    <x:String>Customer Portal User</x:String>
+                  </scg:List>
+                </uix:NSelectItem.Items>
+                <uix:NSelectItem.Target>
+                  <uix:TargetAnchorable BrowserURL="https://dell--sit1.sandbox.my.salesforce.com/50078000006PTpD/a?retURL=%2F50078000006PTpDAAW" DesignTimeRectangle="404, 572, 190, 23" ElementType="DropDown" FriendlyName="'User'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;form&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;table' tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='2' tag='SELECT' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='' tag='SELECT' class='' aaname='*Search scope' /&gt;" Guid="e6d02a66-396a-45d9-90e3-2fd96c5911a4" InformativeScreenshot="65ed2f42c1fe28a435f759a7389c316f.png" ScopeSelectorArgument="&lt;html app='chrome.exe' htmlwindowname='EntityFeedFrameProxy_100' title='Change Case Owner ~ Salesforce - Unlimited Edition' /&gt;" SearchSteps="FuzzySelector" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                        <uix:Target DesignTimeRectangle="336, 571, 42, 15" ElementType="Text" FriendlyName="'*Owner'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;form&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;table' tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='2' tag='LABEL' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='' tag='LABEL' class='' aaname='Owner' check:innerText='*&amp;#xD;&amp;#xA;Owner' /&gt;" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAC4AAAATCAYAAADvXT9EAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAFFSURBVEhL7ZQxkoMwDEX3fDnAnsN1joE7DkGadHsCJjM5BLkEndZG+ki2ccJQkGGG4hfY+taTZPMzjiMdUSf43jrB99YC+JP85ZcuVu5OQxH3XaXgw51cDj3rSrfBxH5ZBvxFNyeQzdME5euYSEsPiXk0vO+6l3gkJkzqT/Z8Z5ui3klZw/QcPds3beJVcJgXrwVguet8GCZgCoO35yQRAIkLoTmVKfuecxd+8Sm4JEu7rUpgDViamLthY+fEOBd5pMihu07fALXTivuFX7QNHLAxVnwYpe8xAVvECrBCNT9r01XR69EGYEkifhcKmIsK3u3g6cTq4GsepykKI9Z1ExeERJ/Ay6uSagV4UOWhsNDtMhZ/Ae0ej9mu1cCrOasTY6Xgk3AtjEynl+LmQ7OHF9c+gkfl8G/9rAXwY+gE31sHBR/pH98n38rUhbvVAAAAAElFTkSuQmCC" SearchSteps="FuzzySelector, Image" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NSelectItem.Target>
+              </uix:NSelectItem>
+              <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" DisplayName="Type Into '*Owner'" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="333.6,218.4" sap2010:WorkflowViewState.IdRef="NTypeInto_11" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Text="[Config(&quot;CaseOwnerName&quot;).ToString]" Version="V1">
+                <uix:NTypeInto.Target>
+                  <uix:TargetAnchorable BrowserURL="https://dell--sit1.sandbox.my.salesforce.com/50078000006PTpD/a?retURL=%2F50078000006PTpDAAW" DesignTimeRectangle="598, 571, 212, 25" ElementType="InputBox" FriendlyName="'INPUT newOwn'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;form&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;table' tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='2' tag='INPUT' type='text' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl class='' tag='INPUT' type='text' aaname='*Owner' /&gt;" Guid="5a16859d-66c2-4dcd-b918-0bd54dec7389" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAANgAAAAdCAYAAADIBaLqAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADUSURBVHhe7dzLCYNQFEVRS7AAu7RO+3EgvHCTvBDJh4g5s7XggCE43Di7w7quzcwyE5hZcI/Atm1rwHnV0i6wHtc8z22apjaOo5kdXLVTDZUe2TWwUn+8e8nMjq1Htgusf7mWZbn+Bo6pdqqhaqnsAuv1dcMw3J+AXz13JDD4M4FBkMAgSGAQJDAIEhgECQyCBAZBAoMggUGQwCBIYBAkMAgSGAQJDIIEBkECgyCBQdDPgQHHfQzM0Rs45+vRG2fbzP6zl7NtDo+anV+10+O6HR5d2wXh5ffiZ3mSlgAAAABJRU5ErkJggg==" InformativeScreenshot="41e5957012c2a1fe2c5c887b8ed7e878.png" IsResponsive="True" ScopeSelectorArgument="&lt;html app='chrome.exe' htmlwindowname='EntityFeedFrameProxy_100' title='Change Case Owner ~ Salesforce - Unlimited Edition' /&gt;" SearchSteps="FuzzySelector, Image" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                        <uix:Target DesignTimeRectangle="336, 571, 42, 15" ElementType="Text" FriendlyName="'*Owner'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;form&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;table' tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='2' tag='LABEL' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='' tag='LABEL' class='' aaname='Owner' check:innerText='*&amp;#xD;&amp;#xA;Owner' /&gt;" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAC4AAAATCAYAAADvXT9EAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAFFSURBVEhL7ZQxkoMwDEX3fDnAnsN1joE7DkGadHsCJjM5BLkEndZG+ki2ccJQkGGG4hfY+taTZPMzjiMdUSf43jrB99YC+JP85ZcuVu5OQxH3XaXgw51cDj3rSrfBxH5ZBvxFNyeQzdME5euYSEsPiXk0vO+6l3gkJkzqT/Z8Z5ui3klZw/QcPds3beJVcJgXrwVguet8GCZgCoO35yQRAIkLoTmVKfuecxd+8Sm4JEu7rUpgDViamLthY+fEOBd5pMihu07fALXTivuFX7QNHLAxVnwYpe8xAVvECrBCNT9r01XR69EGYEkifhcKmIsK3u3g6cTq4GsepykKI9Z1ExeERJ/Ay6uSagV4UOWhsNDtMhZ/Ae0ej9mu1cCrOasTY6Xgk3AtjEynl+LmQ7OHF9c+gkfl8G/9rAXwY+gE31sHBR/pH98n38rUhbvVAAAAAElFTkSuQmCC" SearchSteps="FuzzySelector, Image" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NTypeInto.Target>
+              </uix:NTypeInto>
+              <uix:NClick ClickType="Single" DisplayName="Click 'Save'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NClick_26" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Version="V1">
+                <uix:NClick.Target>
+                  <uix:TargetAnchorable BrowserURL="https://dell--sit1.sandbox.my.salesforce.com/50078000006PTpD/a?retURL=%2F50078000006PTpDAAW" DesignTimeRectangle="622, 658, 49, 27" ElementType="Button" FriendlyName="'Save'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;div&amp;gt;table&amp;gt;tbody&amp;gt;tr&amp;gt;td&amp;gt;form&amp;gt;div&amp;gt;div&amp;gt;table' idx='2' tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='1' tag='INPUT' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='submit' tag='INPUT' class='btn' aaname='Save' check:text='Save' /&gt;" Guid="6916905d-3cb1-43e2-a6e7-d45d58d1b1f0" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAADUAAAAfCAYAAABH0YUgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAANjSURBVFhH7ZjJUttAEIbzTryV5XeAsy3InTew5RwpHoAqIi+5cSUxWNgndm+sHfeMWvpnNBpLqRwCFVd9pZnuv5dfvunLer2mz8Z/Ux8Fw1SSJHRyckJHR0cfAt6Vd0YPTGaKkyyczWb0/v6uwB/ey/K2Bn/2nX8+DZ9deYnxczqdqp1tY5kpds0iKbSRRlWpq2fq1vCPd+bdnabY8dvbm7NY4Pw2jc2f6OvUsJZ3r2RKzjLEpqpOsPVVaqvqvKZeX18VWOCKIa7cNr2dd8UQVw5jlUwhLy8vxhnvZYhG9NtqMF9Fz4iGn15T0hB5fn5W4B3zLurW1NUzWOM1JULk6elJgfcfX3doZydnf7i9BvM2dfUM1nhNidDH9FvTMCSEA7cewWV88D78RAMSc1HZFMfkmZ+n1AvYRJN6Ex2bicmDUaobUegwnNeGNMpmFPuNDrA212o97pI/vaYwIdgNh/vpwKBHU9BpZEkbvZz8y+Eg1U961OT8ptdskzcNpTjn5IYYr6nlcpmxWq2yJ7KM24XBQZQYtdxP668oUiYDii4398uIAq7ZHyjdVU+bbPauNtohtTkXRJSkcyXfjvPexRmr7aYWi4VCztgo46Krl0PSRaVmIP+oIqDuBdcm1G3wvUX9xSQ7D8p6pgTRxNjF3strisVl2M0knkRBOhwX1SYWhfuCJqm+FaUmwr7uNS43xS9M5iGyRyVT8/k8Q2KaPrXUIDZQjMW/OnqxRpcmRm5japzqreVb32VGqs1qTXAne69aph4fH41GTNzOFzIIY5qLqQIBdX7qXty/H0p88yJgRpzFEf1CRMPYe3lNsRh5eHhQ2PGCsXac6cedhhk/balzozPOe6Qxztsz7N6tU21A8q6dvKak4KPhNXV/f69wFWJOzhizsTWiw7ONS4cxG8l5Td3d3SmwGSI51Ln0MtClw5gLl86lxxmVTfHz9vbWaCgxjONT8q4YgzHsJ3eM2X2w1s5VNiWNpYHgitnLVK2pq8cc5r2mUOgq9lFXz9Stcen5XGqKv8icn58bYjn7kDe4DZfub8zgnUu/JvG3s+PjYxoOh3Rzc5MV4ZuxlyhbCvWo8emxxs7hXbi+vla78s6l3/2Ys7MzOjw8pL29Pdrd3f2n4R15V94ZPTCGqc/Bmn4DtlU1FrpWYyYAAAAASUVORK5CYII=" InformativeScreenshot="af0e616a108462b9c38cc844126606d2.png" ScopeSelectorArgument="&lt;html app='chrome.exe' htmlwindowname='EntityFeedFrameProxy_100' title='Change Case Owner ~ Salesforce - Unlimited Edition' /&gt;" SearchSteps="FuzzySelector, Image" Visibility="Interactive" />
+                </uix:NClick.Target>
+              </uix:NClick>
+              <Delay Duration="00:00:05" sap:VirtualizedContainerService.HintSize="333.6,22.4" sap2010:WorkflowViewState.IdRef="Delay_8" />
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Trace" Message="[&quot;Changed case owner successfully.&quot;]" />
+            </Sequence>
+            <Sequence DisplayName="Attachment Upload" sap:VirtualizedContainerService.HintSize="476.8,848" sap2010:WorkflowViewState.IdRef="Sequence_17">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <uix:NClick ClickType="Single" DisplayName="Click 'Bulk Upload'" sap:VirtualizedContainerService.HintSize="435.2,157.6" sap2010:WorkflowViewState.IdRef="NClick_27" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Version="V1">
+                <uix:NClick.Target>
+                  <uix:TargetAnchorable BrowserURL="https://dell--sit1.sandbox.my.salesforce.com/50078000006PipR" DesignTimeRectangle="931, 559, 88, 27" ElementType="Button" FriendlyName="'Bulk Upload'" FullSelectorArgument="&lt;webctrl parentid='ep' tableRow='1' tag='TABLE' /&gt;&lt;webctrl name='casertmigrate__easyupload' tableRow='1' tag='INPUT' /&gt;" FuzzySelectorArgument="&lt;webctrl parentid='ep' tag='TABLE' /&gt;&lt;webctrl name='casertmigrate__easyupload' type='button' tag='INPUT' class='btn' aaname='Bulk Upload' check:text='Bulk Upload' /&gt;" Guid="9a8947c7-7985-4766-983d-034d08148b1a" ImageBase64="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" InformativeScreenshot="9e17a7d74d3ea11d7b214f22335f2cff.png" ScopeSelectorArgument="&lt;html app='chrome.exe' htmlwindowname='EntityFeedFrameProxy_100' title='Case: 05309182 ~ Salesforce - Unlimited Edition' /&gt;" SearchSteps="FuzzySelector, Image" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                        <uix:Target DesignTimeRectangle="318, 562, 444, 21" ElementType="Text" FriendlyName="'Case Detail'" FullSelectorArgument="&lt;webctrl parentid='ep' tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='1' tag='H2' /&gt;" FuzzySelectorArgument="&lt;webctrl parentid='ep' tag='TABLE' /&gt;&lt;webctrl type='' tag='H2' class='mainTitle' aaname='Case Detail' check:innerText='Case Detail' /&gt;" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAcAAAAAZCAYAAACmY/4gAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAKrSURBVHhe7dpRTuMwEIDhnLESF0K9SjlKOQgPPYY3Jok9Y08mLtGCwf8n+WFL5Lj7kF8TmAIAAAMigACAIRFAAMCQCCAAYEgEEAAwJAIIABjSTgDv4TpNYVLrEm4f6487dH8tzyvX+bM/3i5hermFx/rvZh+3cFnPcX13PgMAfKsqgJ8P+vXhbK3L29MJ+BZ+AJf11bOnvQkgAPwZOoDv1xQLb/X40G4JYFxfOfupAFoIIAD8OBHAR7i95FCU05IKzOt9/TSyXpde508LVlzVPht9jrhaIuFFSk215T1FjJYlz259t3mJPazwqvMyAQJAl3IAxUPZflW4hukwftsSIfEmy8b9jl5fHk1pOVQt59p+Z+gH0IrfttzYEUAA+HE5gCkG7X8wkiYrGR0Rle3hbsUpT2X5flak8nXGVCkcBbD+fiJuKcJi+rSmPLl3ipj8/zL2JIAA0KVTAdT2X12qSUlNfFKOh5728udeLJ4O4N73TZ/n4B7uPav+eIgAAkDXTgawjp5c1gM/r+I+5jV6ea9Bnw1gFaxq5fPt7e3uQQABoGunfgeoJrstDik0xsNd/CyvddL6zwHMZ13udzqA6rts1/IKFAB+ixzALXDrg7mMTR27fL261gugVAV37xVoGzeAMlZVqItJ1GDtnQKq7kcAAeC3EAGcmRNavZaHtghmioCO6P51UR2Lckr71BgqFWhn5eAYsZpZsXMDKM6lpkoCCABd0wGcHb4aFLE4ujY93N2wirCJMFRL3NfSFMBiD+/8MkzVdXEf76xxEUAA6FoVwIWYjtKyJzAdnji5iYlPBcfaU0x6iZ4i42p5JeoH0Jkeq5BZ1xZn3ybBIuwxZjmW9e82CSAA9GMngAAA/G0EEAAwJAIIABgSAQQADIkAAgCGRAABAAMK4R+8JUOTcD/bNQAAAABJRU5ErkJggg==" SearchSteps="FuzzySelector, Image" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NClick.Target>
+              </uix:NClick>
+              <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="435.2,328.8" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+                <ui:CommentOut.Body>
+                  <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="375.2,250.4" sap2010:WorkflowViewState.IdRef="Sequence_19">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <uix:NClick ClickType="Single" DelayBefore="3" DisplayName="Click 'Reload'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NClick_28" InteractionMode="HardwareEvents" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Version="V1">
+                      <uix:NClick.Target>
+                        <uix:TargetAnchorable DesignTimeRectangle="105, 66, 43, 43" ElementType="Button" FriendlyName="'Reload'" FullSelectorArgument="&lt;ctrl name='Case: 05309209 ~ Salesforce - Unlimited Edition - Google Chrome *' role='pane' /&gt;&lt;ctrl name='Reload' role='push button' /&gt;" FuzzySelectorArgument="&lt;ctrl name='Case: 05309209 ~ Salesforce - Unlimited Edition - Google Chrome *' role='pane' /&gt;&lt;ctrl name='Reload' role='push button' automationid='' check:text='Reload' /&gt;" Guid="46bbcf78-0693-45e9-8574-565ca3171b6c" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAC8AAAAvCAYAAABzJ5OsAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAFBSURBVGhD7ZXBSwJREIf7/6lEbRHRYBOPWasgKmQlFIK4W4FCSAReVPDs+cnvyUrItLq80UGYw8fjzfsdvoGd2YvVdGLOFZWXQuWlUHkpVF4KlZdC5aVQeSlUXgo2+Z/BO1nf5dDcIbDIh922KV5fml7jkXyPea0/2Fz03CHf08Iivxh/mmrBS2wAdbwjhzyVSQvbZwOhipcnGziGOGAd2MX4Y9vAWzOwNZy4o84pDljlwXwUGf8ma4WDim/POy9nG6PyLrDLg9koNKXMlRXHiYaonCtHkX8J7q14DO5UzhV2+b/D+Tvs791CLrDKU1slaQu5wiaftFWoLcQBi3z4tPnDbsTprYKhjRuIui0ykxYW+eX3l6n55X/FY7CFav6tzVPvaWEf2FOi8lKovBQqL4XKS6HyUqi8FCovhcrLMDFrMIaUhFrqZD4AAAAASUVORK5CYII=" InformativeScreenshot="dc02dbcde363aaa57fc1ae9d12459f3c.png" ScopeSelectorArgument="&lt;wnd app='chrome.exe' cls='Chrome_WidgetWin_1' title='Case: 05309209 ~ Salesforce - Unlimited Edition - Google Chrome' /&gt;" SearchSteps="Selector, FuzzySelector, Image" Visibility="Interactive" />
+                      </uix:NClick.Target>
+                    </uix:NClick>
+                  </Sequence>
+                </ui:CommentOut.Body>
+              </ui:CommentOut>
+              <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="435.2,187.2" sap2010:WorkflowViewState.IdRef="TryCatch_3">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <TryCatch.Try>
+                  <ui:ForEachFileX DisplayName="For Each File in Folder" Folder="[FolderPath]" sap:VirtualizedContainerService.HintSize="433.6,1357.6" sap2010:WorkflowViewState.IdRef="ForEachFileX_2" IncludeSubDirectories="False" OrderBy="NameAscFirst" SkipFolderWithoutPermission="False">
+                    <ui:ForEachFileX.Body>
+                      <ActivityAction x:TypeArguments="si:FileInfo, x:Int32">
+                        <ActivityAction.Argument1>
+                          <DelegateInArgument x:TypeArguments="si:FileInfo" Name="CurrentFile" />
+                        </ActivityAction.Argument1>
+                        <ActivityAction.Argument2>
+                          <DelegateInArgument x:TypeArguments="x:Int32" Name="CurrentIndex" />
+                        </ActivityAction.Argument2>
+                        <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="375.2,1092.8" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <Delay Duration="00:00:02" sap:VirtualizedContainerService.HintSize="333.6,22.4" sap2010:WorkflowViewState.IdRef="Delay_12" />
+                          <uix:NClick ClickType="Single" DisplayName="Click '(Maximum file'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NClick_32" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Version="V1">
+                            <uix:NClick.Target>
+                              <uix:TargetAnchorable BrowserURL="https://dell--sit1--casertmigrate.sandbox.vf.force.com/apex/EasyUploadAttachment?parentId=50078000006RTx6" DesignTimeRectangle="578, 387, 316, 27" ElementType="InputBox" FriendlyName="'INPUT filesInput'" FullSelectorArgument="&lt;webctrl tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='1' tag='INPUT' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl type='file' tag='INPUT' class='' aaname='' /&gt;" Guid="9ab8976b-ffd0-4b7b-a659-5bbc84b6f06b" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAUAAAAAfCAYAAACWPxQ8AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAUHSURBVHhe7Z09TiNNEIY5C/dB2husT0GwImOPQMamiDN8RqRIPgCBQ0vkpGT9TU//THV1VU/NMBgzfoNHK6b6r3rUj6u9gS8+Pj4cAACcIxAgAOBsgQABAGdLFuDhcHB3d3fu+voa/GD8O/Tvkr5kAIBMFqA/OM/Pz+79/R38YPw79O+SvmQAgEwWoK8epAMFfh7+XdKXDACQgQBXCAQIgA0IcIVAgADYgABXCAQIgI1PCnDrbi4u3AXl173bC22u/u3Js5/I3t3/YrkWXLn7V9Luzzb0e7ohsePQFODhwW0uL93l7wf31ohvHt/q2ETeHjfu0s/l+fufe/jt/93F+M7dLjRPk5fbbv6NezgIMXD2zBbg/t9Vf/BLsSVJ0AO/MgFWgh/hVAWoyWcxAY4JDgIE3888AfaH+sLdPAmxShQQ4KkKUBTDUgKM49y+CLEeCBB8PzMEOC6C/dPW7V/3TIDbWB0mbtyW9UtizYhz8Gt3LZftHxrvEMZJFWwmXVlVrAKM7ZpX4GVy0LAIcPO4C1dSfhUWBfgW2nbPE7rY2NW3xwsojtG8AodnZb9hXB3e79btUiwJ8IWKvyOvY6BaN29TfHgE6n0Y26sh791f2o6sGRyNGQKMh3dUGInhsA8VYy2TJKSqDRXl6727YnPzfkEcVK5MSLkNlY4lp4UEqOYwtLHk0MImwE48kuyqZ1EuVJS9VLi8GHGc4fCPCDDJhUgnCGlEgkK/IJYolLjWQjBC3qEPnYvlLfSpq0t9r4Z9iG2kZ9r3suDLmC7AeIDtV1pZLuHQp0Me2lRjsrl6MVQComIyiEJbf/Na74lj+1wqqEzbAqzlRvpYcxjBLMDu70oyYryuTgrJSMRxrAKUx4t9GmLo+1XxMHY/dyUgD1tLtdYI7VvJrkYTdplblB0RtkfbZ/C1HE2AvH1R9cQxa/lQGehioDJNFWEpJd5WiikSzlBJSfEEW2chQL3SnJLDGFMEWEmGxWXBdIwJYZIAZSl42mLgYwqI62Q5q7kIa1TWWY1JKcanYw5tIMDv4WhX4KYA1eqLysQmj/5ZFKpUoQ1ykTmKAFVsOYwxTYDsWRG3HmqBOQJU0cQQ+31SgFrlJskqVHOEPHcck8YKLAJs7Cf4EmYIULuKEgqhGQS4YAXIY4N0wlztti2WE6AuWY0yB7nNwGQBduQDGP+zIMWPWQHyNY2zjAD1XNrrCnuW5uf5aUCAp8QsAeoVmycKIEvGIMB0wLnc2HV7/Psz+pxA16vJVpVwYgkB6h8e0z5U2swRIK9gUlw7mOX3WgKTBKiLVhVwRI6TuSwC1Pak70tz4JTjhL2q96R8DgGeEvME2JGukqXYkvzoQbUIcBhv6MdF2pGuhUSUZT9ZUlyc4W9aTVnkZmnjie0UAUo5lHKz5dBingCHGBVgrrKoZKIYxDESEwWY56YV1KiAOoR+hUwsAuwIQqftWN7SWqq9FPZKacP3DgL8HmYLsCcdZkolCJsAe6IIMrwi7EnXwYRSETbbDOLMiHNRFhJgD8+Bx205aMwWYEc4iDweheEPd4/hoMZ5zAIkzybN08P7kSrMKEBPyj1R7VGUYLNNtVdc4BDgKfE5AYKTpClAAEAGAlwhECAANiDAFQIBAmADAlwhECAANiDAFQIBAmADAlwhECAANrIA8bOY6wA/iwmAnSxA/DD6OvDvED+MDoCNLEAAADg3IEAAwJny4f4HJ4EUT4anGcYAAAAASUVORK5CYII=" InformativeScreenshot="25f81c7f0dc31649af46b5b99368e931.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Salesforce - Unlimited Edition' /&gt;" SearchSteps="FuzzySelector, Image" Visibility="Interactive">
+                                <uix:TargetAnchorable.Anchors>
+                                  <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                                    <uix:Target DesignTimeRectangle="47, 378, 1689, 47" FriendlyName="'(Maximum file'" FullSelectorArgument="&lt;webctrl id='bodyTable' tag='TABLE' /&gt;&lt;webctrl parentid='j_id0:j_id1' tableRow='1' tag='DIV' /&gt;" FuzzySelectorArgument="&lt;webctrl id='bodyTable' tag='TABLE' /&gt;&lt;webctrl parentid='j_id0:j_id1' type='' tag='DIV' class='uploadBox' aaname='              ' check:innerText='(Maximum file size: 25mb)' /&gt;" ImageBase64="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" SearchSteps="FuzzySelector, Image" />
+                                  </scg:List>
+                                </uix:TargetAnchorable.Anchors>
+                              </uix:TargetAnchorable>
+                            </uix:NClick.Target>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </uix:NClick>
+                          <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" DisplayName="Type Into 'File &amp;name'" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="333.6,218.4" sap2010:WorkflowViewState.IdRef="NTypeInto_13" InteractionMode="HardwareEvents" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Text="[CurrentFile.ToString.Replace(&quot;[&quot;, &quot;&quot;).Replace(&quot;]&quot;, &quot;&quot;)]" Version="V1">
+                            <uix:NTypeInto.Target>
+                              <uix:TargetAnchorable DesignTimeRectangle="234, 931, 1383, 20" ElementType="InputBox" FriendlyName="'Edit'" FullSelectorArgument="&lt;wnd ctrlid='1148' /&gt;&lt;wnd ctrlid='1148' /&gt;&lt;wnd ctrlid='1148' /&gt;" FuzzySelectorArgument="&lt;wnd ctrlid='1148' /&gt;&lt;wnd ctrlid='1148' /&gt;&lt;wnd ctrlid='1148' /&gt;" Guid="28fef7ad-18bc-4f49-8ee5-ced1028f6843" ImageBase64="iVBORw0KGgoAAAANSUhEUgAABWsAAAAYCAYAAACMXq8hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADUSURBVHhe7dgxAQAwDMCg+jfdfbPQHCCDWQAAAAAAzslaAAAAAICAn7Uz3hYAAAAA4IqsBQAAAAAIkLUAAAAAAAGyFgAAAAAgQNYCAAAAAATIWgAAAACAAFkLAAAAABAgawEAAAAAAmQtAAAAAECArAUAAAAACJC1AAAAAAABshYAAAAAIEDWAgAAAAAEyFoAAAAAgABZCwAAAAAQIGsBAAAAAAJkLQAAAABAgKwFAAAAAAiQtQAAAAAAAbIWAAAAACDA0AIAAAAABMhaAAAAAIBzuw9k4/poCW0epgAAAABJRU5ErkJggg==" InformativeScreenshot="77158e3b84335a07c2e0760372841af8.png" IsResponsive="True" ScopeSelectorArgument="&lt;wnd app='chrome.exe' cls='#32770' title='Open' /&gt;" SearchSteps="Selector, FuzzySelector, Image" Visibility="Interactive">
+                                <uix:TargetAnchorable.Anchors>
+                                  <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                                    <uix:Target DesignTimeRectangle="157, 931, 67, 20" ElementType="Text" FriendlyName="'File &amp;name'" FullSelectorArgument="&lt;wnd ctrlid='1090' title='File &amp;amp;name:' /&gt;" FuzzySelectorArgument="&lt;wnd ctrlid='1090' title='File &amp;amp;name:' check:text='File &amp;amp;name:' /&gt;" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAEcAAAAYCAYAAACoaOA9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAFUSURBVFhH7ZTLEcQgCEBTlfXYjcXYi7WkA9ZfFAySOPG0w+HNjqsYeIrHeZ6g8KgcAZUjoHIEVI6AyhFQOQJEjrcHHAfFejxnwaO1xoUW+4/c5LwtWOUIqBxhjlsbnEEtacCFPkcJ4Exq2fLLrg8OTNsrYhwEtEf5vkfx9Qkgcf0ZuJjmmONoDtvk5I/iArxlkytcUnoyaT8cH5xFidb11tdxXY/iW9Ftj3uMmOMbOd1qYv4A07EHO2zcbwf+j86Rg8jJzWRGUiGosJwrKrzkMHyPxKzmuOvm5BMYxRYkOWSOOTnaApFBDs2VKR7LWc5xqxzh1G88ySm34NYCn+Ws5LhLDnPqMg9ymBYb34tlOcs5bnyQ05ieTBRg0ckT3shBheQxvUnLciJijoy8bXKu/3Avz/Z6bqvhvUkFfm2ryjTHJzkKReUIqBwBlSOgcgRUzpQTfmYTeoE7rbUNAAAAAElFTkSuQmCC" SearchSteps="FuzzySelector, Image" />
+                                  </scg:List>
+                                </uix:TargetAnchorable.Anchors>
+                              </uix:TargetAnchorable>
+                            </uix:NTypeInto.Target>
+                          </uix:NTypeInto>
+                          <uix:NClick ClickType="Single" DisplayName="Click 'unchecked'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NClick_33" InteractionMode="HardwareEvents" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Version="V1">
+                            <uix:NClick.Target>
+                              <uix:TargetAnchorable DesignTimeRectangle="1656, 963, 110, 33" ElementType="Button" FriendlyName="'unchecked'" FullSelectorArgument="&lt;wnd ctrlid='1' title='&amp;amp;Open' /&gt;" FuzzySelectorArgument="&lt;wnd ctrlid='1' title='&amp;amp;Open' check:text='unchecked' /&gt;" Guid="de677ae0-cc9b-48fc-8735-9c58ba5ea3c8" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAHIAAAAlCAYAAACeVr0yAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAIiSURBVHhe7ZsxbsIwFIZ9A84TiRtwjkzt1qUT9AR4Y2tvkYVKrVoO0ApVDKkY2IoAKQtLq+g1zybFzzFhQrWdN3yCxM+OlC+/ncERRVEAEz4sMhJYZCQ0RM5XO+hPPqF3twBx+8F4xuB+qRzZ3ohILECBo8c17PY/UJYl4xHoZDzbQG+0aMgkIgcPS5CzrXMQxh+G0y81a5ruiEiMLifRf3b7b5VK4o4cVCJdHRn/QFfEHTlgkcHAIiOBRUYCi4wEFhkJwYrMUgFCGCQSckddVwhQZAapQ5wWm0JmnOsSwYlUwk6kT7WlWeN8FwhMpE5jmrnaKnIJiUhA5voYxSYyh1wmrVMwaTf6l2UOMsHr6d9muz+EJTJLqxvZNn1S0fU6ijJ1+0GIkVol0ZRLrlELpA+Hj+tx/CLtqZakFuvthNUpPP4/PggVqr9/a3H0IomEv5qDPDWeTq2NKbIeT2FN374QlshzN/HEGknrbJFtDwaLvBjO6fJEm7PWlHdWCou8IHr6tAUpaVa69DlThO5rprTZr5KX1i8zLPLC6BtM1jVHSlFSIjNae6LOHMt+y2WR/4wWaa+RccIiI4FFRkLUIrsEi4wEFhkJrSJxlznva/Uf3NfaKhJ3Lw+na2dnxh/Grxv1DYjpjoicr7Yqlfh9ASfTP9AJfi6AjtCV6Y6IRLBgMHkHcf0M4uqJ8YjezQv05VtDItIQyYQJi4wEFhkFBfwCAai4Y9SABdUAAAAASUVORK5CYII=" InformativeScreenshot="317c4006f3eefd9ed54edc5be42760e9.png" ScopeSelectorArgument="&lt;wnd app='chrome.exe' cls='#32770' title='Open' /&gt;" SearchSteps="Selector, FuzzySelector, Image" Visibility="Interactive" />
+                            </uix:NClick.Target>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </uix:NClick>
+                          <Delay Duration="00:00:10" sap:VirtualizedContainerService.HintSize="333.6,22.4" sap2010:WorkflowViewState.IdRef="Delay_13" />
+                          <uix:NClick ClickType="Single" DisplayName="Click 'Upload'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NClick_34" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="bbdf9d7a-f13b-4fc2-b5a9-94f2bedcf8da" Version="V1">
+                            <uix:NClick.Target>
+                              <uix:TargetAnchorable BrowserURL="https://dell--sit1--casertmigrate.sandbox.vf.force.com/apex/EasyUploadAttachment?parentId=50078000006PlCw" DesignTimeRectangle="1082, 388, 63, 27" ElementType="Button" FriendlyName="'Upload'" FullSelectorArgument="&lt;webctrl tableRow='1' tag='TABLE' /&gt;&lt;webctrl tableRow='1' tag='INPUT' type='button' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='TABLE' /&gt;&lt;webctrl class='btn' tag='INPUT' type='button' aaname='Upload' check:text='Upload' /&gt;" Guid="c2d9d9ed-8759-433d-a42c-b3a3cf3462cd" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAEMAAAAfCAYAAAC8hnD/AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAR6SURBVGhD7VnLTuNYEJ1/yl/F4RtgO0mYD+ALOg96hxBr1E0S6B1buiEJ8Y5nIIRXtc+9LrtcrhuwNBqhHiwd+dapU3WrTsIm/PXw8ECf8Pg0Q+DTDIGCGdPplPb392lnZ+ePB/bEvnL/zAwk9vb2KI5jen19JTx48xmPFetHc6vq8WjOivWjuVX1eDT38vJCs9nMmSINycyAUxBwoQU8Fr8KVWuq6oGqNazHvti7ZAZcgmO60MJ7dRJVa/6LO56fn93ephks4qZ467ME662aEEL6UC3rrZoQQnqrNmgGC+CYLAhxDOR03uIkrNxbep23OAkrp7mgGdzcwtPTU+Es4xBYU1XP5yo1VfV8DprBDS08Pj46yFjmNbSeORlr6JqqeuZkrKFrgmaw0MJyuaTltE9rtRrVGtsUJ3Ge/0Gb4Gub9EPqhUbG8de1RFujta9xltcajmVew9L7OJ0Hcwq9VRM0g0VcUEJiRgOXRH2aJTXgvP6I2s6MNh3pGgNsRmM7NvMMzIW3nIm51TjyZiRz4kOzNR5BM/RFnOOzNAOX5HphRsLF24102X7KAw3qT3y/PB/nd4zaqc6jsT3L713G1I/ynM+L2kR39E+ea4/SecScrJNvYOU3g2MNl5vkZpwvFkJfNGOWLluG/+ZwHgu7emVEhs1Dd4dcNIc3F/ngfek3uLSHiINmLJIFgfv7+xJcbtxLzejRlDmHQ2q5AVp0mMTTXpQNA9MWi3PqpZ9sa7ig874fPupNk95T6tbzXLFfRL0xc/lch5u5Hh+E14r6YcvFtXrXzVnaQyBohiy6u7tz4LPjz7oUmZeMqOkGatIoiSepGa2B0Az8gDCAzYp6E7o7tXuyRvbgvozmQTKXOdPIG5RwE2sPgaAZ2oASjMF9bpiZMUxiHhrLZpqDZsbJfFYrBgekocM2evvlkSvEYibU+/vsnhbeNAOYz+cFeJ6XzgcDsk+s3qFxoh13OeZhJtmfAuoyM7rjpPeYOiJXvCei7mnR6KIec5VnyufpunnKe+QImnF7e5sVyAbMA4P0U7Hgl5vTGZtRQpMGSS82i/Xz9FtTQmuQ3D3IltWAGajPzNdQZsg9GEEzbm5uXIEEOAZz1rIYjPOnnbrjom5HLBJR56fvx/VR9yy/49vfqc5D5m6/C7OSb9/Zzw7VcW4dZHcOWnltvfPF3wttmucdXL+UA1aa8W+Azah3Ts38R0LQjOvrayfAm88SzGud5ABphtawTp4lQjrJaWgN6+Q5pA+acXV15QT8luAmyGmd5IBfX4pmWDqpZ1S5gyFr+C3PrGPoOyqZgfPl5WUhxxzzDK3XnO6Dt67hmDnZS+YlLzndB29dwzEQNGPVBTInecmh5i295D/CHe8ygxFqEkJVPVC1pqoesGpwNs3Ar8QnJydOxG6+BUv33gE/wh3Y1/x1HP8/2N3dpdFoRBcXF6VCHgBvOYyOLV7nLb3kZa0VW7zOW3rmsR/2xL7m/02A4+Nj2traoo2NDVpfX/9jgf2wJ/aV+xfM+H/jgX4DI/MCjW2dRYYAAAAASUVORK5CYII=" InformativeScreenshot="a3f7eafabca5ea37924cc5c4b6868b66.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Salesforce - Unlimited Edition' /&gt;" SearchSteps="FuzzySelector, Image" Visibility="Interactive" />
+                            </uix:NClick.Target>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </uix:NClick>
+                          <Delay Duration="00:00:10" sap:VirtualizedContainerService.HintSize="333.6,22.4" sap2010:WorkflowViewState.IdRef="Delay_14" />
+                        </Sequence>
+                      </ActivityAction>
+                    </ui:ForEachFileX.Body>
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </ui:ForEachFileX>
+                </TryCatch.Try>
+                <TryCatch.Catches>
+                  <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="400,22.4" sap2010:WorkflowViewState.IdRef="Catch`1_3">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ActivityAction x:TypeArguments="s:Exception">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                      </ActivityAction.Argument>
+                      <Sequence DisplayName="File Upload Catch" sap:VirtualizedContainerService.HintSize="416.8,463.2" sap2010:WorkflowViewState.IdRef="Sequence_18">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="375.2,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Error" Message="[&quot;Couldnt add attachments to case# &quot; +CaseNumber]" />
+                        <Sequence sap:VirtualizedContainerService.HintSize="375.2,175.2" sap2010:WorkflowViewState.IdRef="Sequence_20">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:DeleteFolderX DisplayName="Delete Folder" sap:VirtualizedContainerService.HintSize="333.6,80.8" sap2010:WorkflowViewState.IdRef="DeleteFolderX_3" Path="[FolderPath]" Recursive="True" />
+                        </Sequence>
+                        <Rethrow sap:VirtualizedContainerService.HintSize="375.2,22.4" sap2010:WorkflowViewState.IdRef="Rethrow_1" />
+                      </Sequence>
+                    </ActivityAction>
+                  </Catch>
+                </TryCatch.Catches>
+                <TryCatch.Finally>
+                  <Sequence sap:VirtualizedContainerService.HintSize="375.2,173.6" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:DeleteFolderX DisplayName="Delete Folder" sap:VirtualizedContainerService.HintSize="333.6,80.8" sap2010:WorkflowViewState.IdRef="DeleteFolderX_2" Path="[FolderPath]" Recursive="True" />
+                  </Sequence>
+                </TryCatch.Finally>
+              </TryCatch>
+            </Sequence>
+          </Sequence>
+        </ActivityAction>
+      </uix:NApplicationCard.Body>
+      <uix:NApplicationCard.TargetApp>
+        <uix:TargetApp Area="1912, -8, 1936, 1048" BrowserType="Chrome" IconBase64="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" InformativeScreenshot="2b2f994f2ebbb53446832940d966769a.png" Selector="&lt;html app='chrome.exe' title='Cases: Home ~ Salesforce - Unlimited Edition' /&gt;" Url="[SFDCUrl]" />
+      </uix:NApplicationCard.TargetApp>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </uix:NApplicationCard>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="552,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;SFDC Case ended&quot; +&quot;of Case #  &quot;+CaseNumber]" />
+  </Sequence>
+</Activity>
